@@ -6,9 +6,12 @@ LOCAL_ARM_MODE := arm
 LOCAL_MODULE := libopenal
 LOCAL_MODULE_TAGS := optional
 
+LOCAL_PRELINK_MODULE := false
+
 LOCAL_C_INCLUDES := \
     $(LOCAL_PATH)/include \
-    $(LOCAL_PATH)/OpenAL32/Include
+    $(LOCAL_PATH)/OpenAL32/Include \
+    $(TOP)/frameworks/base/include/media
 
 LOCAL_SRC_FILES  := \
     OpenAL32/alAuxEffectSlot.c \
@@ -30,15 +33,40 @@ LOCAL_SRC_FILES  := \
     Alc/alcRing.c              \
     Alc/alcThread.c            \
     Alc/ALu.c                  \
-    Alc/android.c              \
     Alc/bs2b.c                 \
-    Alc/null.c
+    Alc/null.c		       \
+    Alc/android.cpp
 
 LOCAL_CFLAGS := \
     -DAL_BUILD_LIBRARY \
     -DAL_ALEXT_PROTOTYPES
 
 LOCAL_SHARED_LIBRARIES := \
-    liblog
+    libutils \
+    liblog \
+    libbinder \
+    libcutils \
+    libmedia
 
 include $(BUILD_SHARED_LIBRARY)
+
+#*************** TEST binary *******************
+
+include $(CLEAR_VARS)
+
+LOCAL_ARM_MODE := arm
+
+LOCAL_MODULE := openal-info
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_C_INCLUDES := \
+    $(LOCAL_PATH)/include \
+    $(LOCAL_PATH)/OpenAL32/Include
+
+LOCAL_SRC_FILES  := \
+    examples/openal-info.c
+
+LOCAL_SHARED_LIBRARIES := \
+    libopenal
+
+include $(BUILD_EXECUTABLE)

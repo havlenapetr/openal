@@ -450,7 +450,7 @@ struct ALCcontext_struct
     ALCcontext *next;
 };
 
-ALCvoid ReleaseALC(ALCvoid);
+ALCvoid ReleaseALC();
 
 void AppendDeviceList(const ALCchar *name);
 void AppendAllDeviceList(const ALCchar *name);
